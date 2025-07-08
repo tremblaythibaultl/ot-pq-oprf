@@ -20,7 +20,7 @@ $ docker run -it oprf
 ```
 This will launch a container and a `bash` instance. From there, you can execute 
 ```bash
-./oprf
+$ ./oprf
 ```
 Parameters can be adjusted via the constants in the `/home/ot-pq-oprf/main.cpp` file. Rebuilding is necessary and can be achieved by executing `make` in the `/home/ot-pq-oprf/build` directory inside the container.
 
@@ -41,3 +41,23 @@ The `main` function provides a working example of the online phase of the OPRF. 
 
 In order to entirely reproduce the results presented in the tables, one must launch the executable several times to obtain an average and repeat the process for each parameter set. 
 Client and server complexity are respectively measured as described in the text output of the executable and in the code.
+
+## Parameters
+As is, the file contains a set of paramaters of interest for comparison with prior work (c.f. Table 4). 
+Alternative parameter sets presented in the paper can be benchmarked by e.g. setting
+```c
+const uint n = 415;
+const uint tau = 1 << 18;
+const uint lg_q = 8;
+const uint lg_lg_p = 2;
+
+const uint kappa = 16384;
+```
+in the `main.cpp` file for the `(n, q, p) = (415, 2^8, 2^4)` parameter set.
+
+The executable must then be rebuilt from the `build` directory by running the following commands: 
+```bash
+$ cd build
+$ make
+$ ./oprf
+```

@@ -42,7 +42,7 @@ const uint q = 1 << lg_q;
 const uint lg_lg_p = 3;
 const uint lg_p = 1 << lg_lg_p;
 const uint p = 1 << lg_p;
-const uint lg_delta = 7 - lg_lg_p; // delta = 128 / lg(p)
+const uint lg_delta = lg_q - lg_p;
 const uint delta = 1 << lg_delta;
 
 // refer to appendix A of the paper for the definition of kappa
