@@ -1007,6 +1007,12 @@ int main(int argc, char *argv[])
 
     std::cout << "\nComputing " << num_rounds << " evaluations of the Pool OPRF..." << std::endl;
 
+    // Communication complexity for one round of the Pool OPRF.
+    // The communication complexity is computed as follows:
+    // n * lg_q + lg_delta for the output values `(e_1, ..., e_n), \bar{b}'` of the `Request` phase (Fig. 4). We do not account for session-specific values.
+    // delta * p for the output values `y_0, ..., y_{delta-1}` of the `BlindEval` phase (Fig. 4). Again, we ignore the session-specific values (e.g., `uid, ctr`).
+    uint comm_compl = (n * lg_q + lg_delta + delta * lg_p) / 8;
+
     for (int round = 0; round < num_rounds; round++)
     {
         // Request (Fig. 4)
@@ -1100,7 +1106,7 @@ int main(int argc, char *argv[])
         auto client_mus = std::chrono::duration_cast<std::chrono::microseconds>(end - be_end + req_end - req_start).count();
         auto server_mus = std::chrono::duration_cast<std::chrono::microseconds>(be_end - req_end).count();
 
-        std::cout << "Result: " << z << " computed in " << client_mus << "µs for the client and " << server_mus << "µs for the server." << std::endl;
+        std::cout << "Result: " << z << " computed in " << client_mus << "µs for the client and " << server_mus << "µs for the server with communication complexity " << comm_compl << "B." << std::endl;
 
         // Sanity check
         uint eval_z = 0;
